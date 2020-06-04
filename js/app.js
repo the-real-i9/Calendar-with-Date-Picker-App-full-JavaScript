@@ -102,6 +102,10 @@ const UIController = (() => {
         selector(elem).classList.add(value);
     };
 
+    const removeClass = (elem, value) => {
+        selector(elem).classList.remove(value);
+    };
+
 
     return {
         // What to see when the App is launched
@@ -186,6 +190,12 @@ const UIController = (() => {
                 left: coor.left,
                 behaviour: 'smooth',
             });
+        },
+
+        updateCalenderOnSelect: ({
+            fullDate, date, currWeek,
+        }) => {
+
         },
 
         getDOMStrings: () => DOMStrings,
