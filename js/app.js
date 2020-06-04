@@ -27,7 +27,7 @@ const calenderController = (() => {
         const weekEnd = 7 - drefTo.getDay();
         const date = d.getDate();
         const currWeek = d.getDay();
-        console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
+        // console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
         
         return {
             year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek,
