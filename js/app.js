@@ -2,7 +2,7 @@
 const calenderController = (() => {
     const d = new Date();
     const calenderInfo = ({ nextOrPrev, dateSel } = { nextOrPrev: 0, dateSel: d.getDate() } ) => {
-        d.setMonth(d.getMonth() + (nextOrPrev || 0));
+        d.setMonth(d.getMonth() + (nextOrPrev || 0), dateSel || d.getDate() === 31 ? 30 : dateSel || d.getDate());
         d.setDate(dateSel || d.getDate());
         
 
