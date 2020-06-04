@@ -128,18 +128,14 @@ const UIController = (() => {
             setText(DOMStrings.monthYear, monthYear);
             setStyle(DOMStrings.yearSelector, 'display', 'none');
 
-
             const offsetStart = offset;
             offsetStart(weekStart, countOffsetStart, noOffsetStart);
-
 
             const supplyDates = supply;
             supplyDates(dateCount, daysInMonth, DOMStrings.calNumsDiv);
 
-
             const offsetEnd = offset;
             offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
-
 
             // current date
             setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
@@ -157,14 +153,11 @@ const UIController = (() => {
             setHtml(DOMStrings.calNumsDiv, '');
             setText(DOMStrings.monthYear, monthYear);
 
-
             const offsetStart = offset;
             offsetStart(weekStart, countOffsetStart, noOffsetStart);
 
-
             const supplyDates = supply;
             supplyDates(dateCount, daysInMonth, DOMStrings.calNumsDiv);
-
 
             const offsetEnd = offset;
             offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
@@ -203,13 +196,11 @@ const UIController = (() => {
             setStyle(`#year-${year}`, 'color', 'rgb(138, 43, 266)').style.fontSize = '30px';
 
             const coor = selector(`#year-${year}`).getBoundingClientRect();
-            setTimeout(() => {
-                selector(DOMStrings.yearSelector).scrollTo({
-                    top: coor.top - 275,
-                    left: coor.left,
-                    behaviour: 'smooth',
-                });
-            }, 500);
+            selector(DOMStrings.yearSelector).scrollBy({
+                top: coor.top - 275,
+                left: coor.left,
+                behaviour: 'smooth',
+            });
         },
 
         updateCalenderOnDateSelect: ({
@@ -220,8 +211,6 @@ const UIController = (() => {
                 elem.classList.remove('selected');
             }
             setStyle(`#date-${date}`).classList.add('selected');
-
-            
         },
 
         updateCalenderOnYearSelect: ({
