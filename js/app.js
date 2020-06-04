@@ -162,12 +162,13 @@ const UIController = (() => {
             const offsetEnd = offset;
             offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
 
-            for (const elem of selectorAll(DOMStrings.dates)) {
-                elem.classList.remove('selected');
-            }
-            for (const elem of selectorAll(DOMStrings.weekDays)) {
-                elem.style.color = '';
-            }
+            // for (const elem of selectorAll(DOMStrings.dates)) {
+            //     elem.classList.remove('selected');
+            // }
+
+            // for (const elem of selectorAll(DOMStrings.weekDays)) {
+            //     elem.style.color = '';
+            // }
 
             // While traversing the calender, if current calender === current month year
             // then get the current date selected else we dont't wanna select the date
@@ -189,9 +190,12 @@ const UIController = (() => {
             setStyle(DOMStrings.calender, 'display', 'none');
             setStyle(DOMStrings.yearSelector, 'display', 'flex');
 
-            for (const elem of selectorAll(DOMStrings.allYears)) {
-                [elem.style.fontSize, elem.style.color] = ['19px', ''];
-            }
+
+            [...selectorAll(DOMStrings.allYears)].map((el) => {
+                [el.style.fontSize, el.style.color] = ['19px', ''];
+            });
+            // console.log(elem);
+            
             
             setStyle(`#year-${year}`, 'color', 'rgb(138, 43, 266)').style.fontSize = '30px';
 
@@ -207,9 +211,9 @@ const UIController = (() => {
             fullDate, date,
         }) => {
             setText(DOMStrings.fullDate, fullDate);
-            for (const elem of selectorAll(DOMStrings.dates)) {
-                elem.classList.remove('selected');
-            }
+            [...selectorAll(DOMStrings.dates)].map((el) => {
+                el.classList.remove('selected');
+            });
             setStyle(`#date-${date}`).classList.add('selected');
         },
 
