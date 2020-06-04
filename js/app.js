@@ -2,7 +2,7 @@
 const calenderController = (() => {
     const d = new Date();
     const calenderInfo = ({ nextOrPrev, dateSel } = { nextOrPrev: 0, dateSel: d.getDate() } ) => {
-        // d.setMonth(d.getMonth() + nextOrPrev);
+        d.setMonth(d.getMonth() + (nextOrPrev || 0));
         d.setDate(dateSel || d.getDate());
         
 
@@ -165,6 +165,13 @@ const UIController = (() => {
             const offsetEnd = offset;
             offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
 
+            for (const elem of selectorAll(DOMStrings.dates)) {
+                elem.classList.remove('selected');
+            }
+            for (const elem of selectorAll(DOMStrings.weekDays)) {
+                elem.style.color = '';
+            }
+
             // While traversing the calender, if current calender === current month year
             // then get the current date selected else we dont't wanna select the date
             // from the code
@@ -172,8 +179,9 @@ const UIController = (() => {
                 month: 'long',
                 year: 'numeric',
             })) {
-                setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
-                setStyle(`#date-${date}`, 'color', 'rgb(138, 43, 266)').classList.add('selected');
+                setStyle(`#day-${new Date().getDay()}`, 'color', 'rgb(138, 43, 266)');
+                setStyle(`#date-${new Date().getDate()}`, 'color', 'rgb(138, 43, 266)');
+                addClass(`#date-${date}`, 'selected');
             } else {
                 setStyle(`#day-${new Date().getDay()}`, 'color', '');
             }
@@ -195,16 +203,16 @@ const UIController = (() => {
         },
 
         updateCalenderOnSelect: ({
-            year, fullDate, date, currWeek,
+            fullDate, date,
         }) => {
             setText(DOMStrings.fullDate, fullDate);
             for (const elem of selectorAll(DOMStrings.dates)) {
                 elem.classList.remove('selected');
             }
-            for (const elem of selectorAll(DOMStrings.weekDays)) {
-                elem.style.color = '';
-            }
-            setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
+            // for (const elem of selectorAll(DOMStrings.weekDays)) {
+            //     elem.style.color = '';
+            // }
+            // setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
             setStyle(`#date-${date}`).classList.add('selected');
         },
 
@@ -219,10 +227,10 @@ const controller = ((clCtrl, UICtrl) => {
     const select = (elem) => UICtrl.getSelectors(elem);
     const selectAll = (elem) => UICtrl.getAllSelector(elem);
     const DOM = UICtrl.getDOMStrings();
+    const action = function(event, action) {
+        return this.addEventListener(event, action);
+    };
     const setupEventListeners = () => {
-        const action = function(event, action) {
-            return this.addEventListener(event, action);
-        };
         action.call(select(DOM.navRight), 'click', updateMonth);
         action.call(select(DOM.navLeft), 'click', updateMonth);
 
@@ -233,7 +241,13 @@ const controller = ((clCtrl, UICtrl) => {
         }
     };
 
-    const updateMonth = (ev) => (ev?.target.id === 'nav-right' ? UICtrl.updateMonth(clCtrl.updateMonth('next')) : UICtrl.updateMonth(clCtrl.updateMonth('prev')));
+    const updateMonth = (ev) => {
+        (ev?.target.id === 'nav-right' ? UICtrl.updateMonth(clCtrl.updateMonth('next')) : UICtrl.updateMonth(clCtrl.updateMonth('prev')));
+
+        for (const elem of selectAll(DOM.dates)) {
+            action.call(elem, 'click', updateCalenderOnSelect);
+        }
+    }
 
     const displayYearSelector = (ev) => {
         if (ev) {
