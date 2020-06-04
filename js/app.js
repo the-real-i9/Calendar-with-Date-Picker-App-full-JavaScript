@@ -2,8 +2,9 @@
 const calenderController = (() => {
     const d = new Date();
     const calenderInfo = ({ nextOrPrev, dateSel } = { nextOrPrev: 0, dateSel: d.getDate() } ) => {
-        d.setMonth(d.getMonth() + nextOrPrev);
+        // d.setMonth(d.getMonth() + nextOrPrev);
         d.setDate(dateSel || d.getDate());
+        
 
         // Algorith to get the number of days in a month
         const drefFrom = new Date(d.getFullYear(), d.getMonth());
@@ -25,7 +26,8 @@ const calenderController = (() => {
         const weekEnd = 7 - drefTo.getDay();
         const date = d.getDate();
         const currWeek = d.getDay();
-
+        console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
+        
         return {
             year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek,
         };
@@ -37,9 +39,9 @@ const calenderController = (() => {
 
         updateMonth: (action) => (action === 'next' ? calenderInfo({ nextOrPrev: 1 }) : calenderInfo({ nextOrPrev: -1 })),
 
-        updateCalenderOnSelect: ({ selected, value }) => {
+        updateCalenderOnSelect: (selected, value) => {
             if (selected === 'date') {
-                calenderInfo({ dateSel: Number(value) });
+                return calenderInfo({ dateSel: value });
             }
         },
     };
@@ -193,9 +195,17 @@ const UIController = (() => {
         },
 
         updateCalenderOnSelect: ({
-            fullDate, date, currWeek,
+            year, fullDate, date, currWeek,
         }) => {
-
+            setText(DOMStrings.fullDate, fullDate);
+            for (const elem of selectorAll(DOMStrings.dates)) {
+                elem.classList.remove('selected');
+            }
+            for (const elem of selectorAll(DOMStrings.weekDays)) {
+                elem.style.color = '';
+            }
+            setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
+            setStyle(`#date-${date}`).classList.add('selected');
         },
 
         getDOMStrings: () => DOMStrings,
@@ -237,7 +247,7 @@ const controller = ((clCtrl, UICtrl) => {
     const updateCalenderOnSelect = (ev) => {
         if (ev) {
             const [selected, value] = ev.target.id.split('-');
-            UICtrl.updateCalenderOnSelect(clCtrl.updateCalenderOnSelect({ selected, value }));
+            UICtrl.updateCalenderOnSelect(clCtrl.updateCalenderOnSelect(selected, Number(value)));
         }
     };
 
