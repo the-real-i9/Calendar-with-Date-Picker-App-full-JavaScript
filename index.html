@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calender</title>
+    <link rel="stylesheet" href="./css/fontawesome_all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="c-box">
+        <span class="year"></span>
+        <div class="full-date"></div>
+        <div class="calender">
+            <div class="cal-scroll">
+                <i class="fas fa-chevron-left nav" id='nav-left'></i>
+                <div class="my"></div>
+                <i class="fas fa-chevron-right nav" id='nav-right'></i>
+            </div>
+            <div class="days">
+                <span class='day' id="day-0">S</span>
+                <span class='day' id="day-1">M</span>
+                <span class='day' id="day-2">T</span>
+                <span class='day' id="day-3">W</span>
+                <span class='day' id="day-4">T</span>
+                <span class='day' id="day-5">F</span>
+                <span class='day' id="day-6">S</span>
+            </div>
+            <div class="cal-nums">
+                <!-- A ton goes here via JavaScript -->
+            </div>
+        </div>
+        <div class="yearSelector">
+            
+        </div>
+        <div class="actions">
+            <div class="act-cont">
+                <div id="cancel">Cancel</div>
+                <div id="ok">OK</div>
+            </div>
+        </div>
+        <div class="about">Date Picker by <span id="author">McKenney<sup class="far fa-registered"></sup></span></div>
+    </div>
+    <script src="./js/app.js"></script>
+</body>
+</html>

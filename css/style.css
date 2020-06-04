@@ -1,0 +1,199 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Ubuntu';
+}
+
+html, body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.c-box {
+  width: 375px;
+  background: #fff;
+  -webkit-box-shadow: 0px 0px 99px rgba(190, 190, 190, 0.301);
+          box-shadow: 0px 0px 99px rgba(190, 190, 190, 0.301);
+  border-radius: 15px;
+  padding: 20px 25px;
+}
+
+.c-box .year {
+  color: #969696;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.c-box .full-date {
+  color: #000;
+  font-size: 35px;
+  font-weight: 500;
+}
+
+.c-box .calender {
+  margin-top: 25px;
+}
+
+.c-box .calender .cal-scroll {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.c-box .calender .cal-scroll .my {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.c-box .calender .cal-scroll .nav {
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.c-box .calender .days, .c-box .calender .cal-nums {
+  margin-top: 15px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[7];
+      grid-template-columns: repeat(7, 1fr);
+}
+
+.c-box .calender .days span, .c-box .calender .cal-nums span {
+  color: #969696;
+  margin: auto;
+  font-weight: 300;
+}
+
+.c-box .calender .cal-nums {
+  margin-top: 10px;
+}
+
+.c-box .calender .cal-nums span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 40px;
+  width: 40px;
+  font-weight: 300;
+  border-radius: 50%;
+  color: #000;
+}
+
+.c-box .calender .cal-nums .date {
+  cursor: pointer;
+}
+
+.c-box .calender .cal-nums .selected {
+  background: #8a2bff;
+  color: #fff !important;
+}
+
+.c-box .yearSelector {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-top: 10px;
+  height: 275px;
+  overflow-y: scroll;
+  font-size: 19px;
+  font-weight: 400;
+}
+
+.c-box .yearSelector span {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.c-box .yearSelector::-webkit-scrollbar {
+  width: 5px;
+}
+
+.c-box .yearSelector::-webkit-scrollbar-thumb {
+  width: 5px;
+  background: #e4e3e3;
+  border-radius: 10px;
+}
+
+.c-box .actions {
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.c-box .actions .act-cont {
+  width: 30%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.c-box .actions .act-cont div {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.c-box .actions .act-cont div:hover {
+  background: #8a2bff;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.c-box .about {
+  font-size: 13px;
+  color: #969696;
+  font-weight: 300;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.c-box .about #author {
+  color: #8a2bff;
+  font-weight: 400;
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu';
+}
+
+$fontWeight: (
+    "light": 300,
+    "regular": 400,
+    "medium": 500,
+    "bold": 700
+);
+
+@function weight($name) {
+    @return map-get($fontWeight, $name);
+}
+
+@mixin flex($jc: null, $ai: null, $dir: null) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;;
+    flex-direction: $dir;
+}
+
+html, body {
+    @include flex(center, center);
+    width: 100%;
+    height: 100%;
+}
+
+.c-box {
+    width: 375px;
+    // height: 450px;
+    background: #fff;
+    box-shadow: 0px 0px 99px rgba(190, 190, 190, 0.301);
+    border-radius: 15px;
+    padding: 20px 25px;
+
+    .year {
+        color: rgb(150, 150, 150);
+        font-weight: weight(medium);
+        cursor: pointer;
+    }
+    
+    .full-date {
+        color: #000;
+        font-size: 35px;
+        font-weight: weight(medium);
+    }
+
+    
+
+    .calender {
+        margin-top: 25px;
+
+        .cal-scroll {
+            @include flex($jc: space-between, $ai: center);
+
+            .my {
+                font-weight: weight(medium);
+                font-size: 15px;
+            }
+
+            .nav {
+                cursor: pointer;
+                font-size: 17px;
+            }
+        }
+
+        .days {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            span {
+                color: rgb(150, 150, 150);
+                margin: auto;
+                font-weight: weight(light);
+            }
+        }
+
+        .cal-nums {
+            @extend .days;
+            margin-top: 10px;
+            // row-gap: 5px;
+            
+            span {
+                @include flex(center, center);
+                height: 40px;
+                width: 40px;
+                font-weight: weight(light);
+                border-radius: 50%;
+                color: #000;
+            }
+
+            .date {
+                cursor: pointer;
+            }
+
+            .selected {
+                background: rgb(138, 43, 266);
+                color: #fff !important;
+            }
+        }
+    }
+
+    .yearSelector {
+        @include flex(center, center, column);
+        margin-top: 10px;
+        height: 275px;
+        overflow-y: scroll;
+        font-size: 19px;
+        font-weight: weight(regular);
+
+        span {
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            width: 5px;
+            background: rgb(228, 227, 227);
+            border-radius: 10px;
+        }
+    }
+
+    .actions {
+        height: 50px;
+        @include flex(flex-end, center);
+
+        .act-cont {
+            width: 30%;
+            @include flex(space-between, center);
+
+            div {
+                cursor: pointer;
+                padding: 5px;
+
+                &:hover {
+                    background: rgb(138, 43, 266);
+                    // padding: 5px;
+                    color: #fff;
+                    border-radius: 5px;
+                }
+            }
+        }
+
+    }
+    
+    .about {
+        font-size: 13px;
+        color: rgb(150, 150, 150);
+        font-weight: weight(light);
+        margin: 0 auto;
+        width: 50%;
+
+        #author {
+            color: rgb(138, 43, 266);
+            font-weight: weight(regular);
+        }
+    }
+}
+
