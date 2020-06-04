@@ -36,6 +36,12 @@ const calenderController = (() => {
         getCalInfo: () => calenderInfo(),
 
         updateMonth: (action) => (action === 'next' ? calenderInfo({ nextOrPrev: 1 }) : calenderInfo({ nextOrPrev: -1 })),
+
+        updateCalenderOnSelect: ({ selected, value }) => {
+            if (selected === 'date') {
+                calenderInfo({ dateSel: Number(value) });
+            }
+        },
     };
 })();
 
@@ -55,10 +61,11 @@ const UIController = (() => {
         okBtn: '#ok',
         yearSelector: '.yearSelector',
         calender: '.calender',
+        allYears: '.allYears',
     };
 
     const selector = (elem) => document.querySelector(elem);
-    // const selectorAll = (elem) => document.querySelectorAll(elem);
+    const selectorAll = (elem) => document.querySelectorAll(elem);
 
     const htmlEmpty = '<span class="empty"></span>';
 
@@ -129,7 +136,7 @@ const UIController = (() => {
             setStyle(`#date-${date}`, 'color', 'rgb(138, 43, 266)').classList.add('selected');
         },
 
-        updateCalender: ({
+        updateMonth: ({
             monthYear, daysInMonth, weekStart, weekEnd, date, currWeek,
         }) => {
             let countOffsetStart = 0;
@@ -183,25 +190,30 @@ const UIController = (() => {
 
         getDOMStrings: () => DOMStrings,
         getSelectors: (elem) => selector(elem),
+        getAllSelector: (elem) => selectorAll(elem),
     };
 })();
 
 // App Controller
 const controller = ((clCtrl, UICtrl) => {
     const select = (elem) => UICtrl.getSelectors(elem);
+    const selectAll = (elem) => UICtrl.getAllSelector(elem);
     const DOM = UICtrl.getDOMStrings();
     const setupEventListeners = () => {
         const action = function(event, action) {
             return this.addEventListener(event, action);
         };
-        action.call(select(DOM.navRight), 'click', updateCalender);
-        action.call(select(DOM.navLeft), 'click', updateCalender);
+        action.call(select(DOM.navRight), 'click', updateMonth);
+        action.call(select(DOM.navLeft), 'click', updateMonth);
 
         action.call(select(DOM.year), 'click', displayYearSelector);
 
+        for (const elem of selectAll(DOM.dates)) {
+            action.call(elem, 'click', updateCalenderOnSelect);
+        }
     };
 
-    const updateCalender = (ev) => (ev?.target.id === 'nav-right' ? UICtrl.updateCalender(clCtrl.updateMonth('next')) : UICtrl.updateCalender(clCtrl.updateMonth('prev')));
+    const updateMonth = (ev) => (ev?.target.id === 'nav-right' ? UICtrl.updateMonth(clCtrl.updateMonth('next')) : UICtrl.updateMonth(clCtrl.updateMonth('prev')));
 
     const displayYearSelector = (ev) => {
         if (ev) {
@@ -209,6 +221,13 @@ const controller = ((clCtrl, UICtrl) => {
             if (select(DOM.yearSelector).style.display !== 'none') {
                 select(DOM.year).removeEventListener('click', displayYearSelector);
             }
+        }
+    };
+
+    const updateCalenderOnSelect = (ev) => {
+        if (ev) {
+            const [selected, value] = ev.target.id.split('-');
+            UICtrl.updateCalenderOnSelect(clCtrl.updateCalenderOnSelect({ selected, value }));
         }
     };
 
