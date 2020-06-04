@@ -1,9 +1,10 @@
 // Calender Controller
 const calenderController = (() => {
     const d = new Date();
-    const calenderInfo = ({ nextOrPrev, dateSel } = { nextOrPrev: 0, dateSel: d.getDate() } ) => {
+    const calenderInfo = ({ nextOrPrev, dateSel, yearSel } = { nextOrPrev: 0, dateSel: d.getDate(), yearSel: d.getFullYear() } ) => {
         d.setMonth(d.getMonth() + (nextOrPrev || 0), dateSel || d.getDate() === 31 ? 30 : dateSel || d.getDate());
         d.setDate(dateSel || d.getDate());
+        d.setFullYear(yearSel || d.getFullYear());
         
 
         // Algorith to get the number of days in a month
@@ -39,11 +40,10 @@ const calenderController = (() => {
 
         updateMonth: (action) => (action === 'next' ? calenderInfo({ nextOrPrev: 1 }) : calenderInfo({ nextOrPrev: -1 })),
 
-        updateCalenderOnSelect: (selected, value) => {
-            if (selected === 'date') {
-                return calenderInfo({ dateSel: value });
-            }
-        },
+        updateCalenderOnDateSelect: (value) => calenderInfo({ dateSel: value }),
+
+        updateCalenderOnYearSelect: (value) => calenderInfo({ yearSel: value }),
+
     };
 })();
 
@@ -100,6 +100,10 @@ const UIController = (() => {
         selector(elem).textContent = value;
     };
 
+    const setHtml = (elem, value) => {
+        selector(elem).innerHTML = value;
+    };
+
     const addClass = (elem, value) => {
         selector(elem).classList.add(value);
     };
@@ -143,15 +147,15 @@ const UIController = (() => {
         },
 
         updateMonth: ({
-            monthYear, daysInMonth, weekStart, weekEnd, date, currWeek,
+            monthYear, daysInMonth, weekStart, weekEnd, date,
         }) => {
             let countOffsetStart = 0;
             let dateCount = 1;
             let countOffsetEnd = 0;
             const noOffsetStart = 0;
             const noOffsetEnd = 7;
-            selector(DOMStrings.calNumsDiv).innerHTML = '';
-            selector(DOMStrings.monthYear).textContent = monthYear;
+            setHtml(DOMStrings.calNumsDiv, '');
+            setText(DOMStrings.monthYear, monthYear);
 
 
             const offsetStart = offset;
@@ -191,29 +195,47 @@ const UIController = (() => {
             const year = selector(DOMStrings.year).textContent;
             setStyle(DOMStrings.calender, 'display', 'none');
             setStyle(DOMStrings.yearSelector, 'display', 'flex');
+
+            for (const elem of selectorAll(DOMStrings.allYears)) {
+                [elem.style.fontSize, elem.style.color] = ['19px', ''];
+            }
             
             setStyle(`#year-${year}`, 'color', 'rgb(138, 43, 266)').style.fontSize = '30px';
 
             const coor = selector(`#year-${year}`).getBoundingClientRect();
-            selector(DOMStrings.yearSelector).scrollTo({
-                top: coor.top - 275,
-                left: coor.left,
-                behaviour: 'smooth',
-            });
+            setTimeout(() => {
+                selector(DOMStrings.yearSelector).scrollTo({
+                    top: coor.top - 275,
+                    left: coor.left,
+                    behaviour: 'smooth',
+                });
+            }, 500);
         },
 
-        updateCalenderOnSelect: ({
+        updateCalenderOnDateSelect: ({
             fullDate, date,
         }) => {
             setText(DOMStrings.fullDate, fullDate);
             for (const elem of selectorAll(DOMStrings.dates)) {
                 elem.classList.remove('selected');
             }
-            // for (const elem of selectorAll(DOMStrings.weekDays)) {
-            //     elem.style.color = '';
-            // }
-            // setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
             setStyle(`#date-${date}`).classList.add('selected');
+
+            
+        },
+
+        updateCalenderOnYearSelect: ({
+            year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date,
+        }) => {
+            UIController.updateMonth({ monthYear, daysInMonth, weekStart, weekEnd, date });
+
+            setText(DOMStrings.fullDate, fullDate);
+            setText(DOMStrings.year, year);
+
+            if (selector(DOMStrings.yearSelector).style.display !== 'none') {
+                setStyle(DOMStrings.calender, 'display', 'block');
+                setStyle(DOMStrings.yearSelector, 'display', 'none');
+            }
         },
 
         getDOMStrings: () => DOMStrings,
@@ -237,7 +259,11 @@ const controller = ((clCtrl, UICtrl) => {
         action.call(select(DOM.year), 'click', displayYearSelector);
 
         for (const elem of selectAll(DOM.dates)) {
-            action.call(elem, 'click', updateCalenderOnSelect);
+            action.call(elem, 'click', updateCalenderOnDateSelect);
+        }
+
+        for (const elem of selectAll(DOM.allYears)) {
+            action.call(elem, 'click', updateCalenderOnYearSelect);
         }
     };
 
@@ -245,7 +271,7 @@ const controller = ((clCtrl, UICtrl) => {
         (ev?.target.id === 'nav-right' ? UICtrl.updateMonth(clCtrl.updateMonth('next')) : UICtrl.updateMonth(clCtrl.updateMonth('prev')));
 
         for (const elem of selectAll(DOM.dates)) {
-            action.call(elem, 'click', updateCalenderOnSelect);
+            action.call(elem, 'click', updateCalenderOnDateSelect);
         }
     }
 
@@ -258,10 +284,22 @@ const controller = ((clCtrl, UICtrl) => {
         }
     };
 
-    const updateCalenderOnSelect = (ev) => {
+    const updateCalenderOnDateSelect = (ev) => {
         if (ev) {
             const [selected, value] = ev.target.id.split('-');
-            UICtrl.updateCalenderOnSelect(clCtrl.updateCalenderOnSelect(selected, Number(value)));
+            UICtrl.updateCalenderOnDateSelect(clCtrl.updateCalenderOnDateSelect(Number(value)));
+            action.call(select(DOM.year), 'click', displayYearSelector);
+        }
+    };
+
+    const updateCalenderOnYearSelect = (ev) => {
+        if (ev) {
+            const [selected, value] = ev.target.id.split('-');
+            UICtrl.updateCalenderOnYearSelect(clCtrl.updateCalenderOnYearSelect(Number(value)));
+            action.call(select(DOM.year), 'click', displayYearSelector);
+            for (const elem of selectAll(DOM.dates)) {
+                action.call(elem, 'click', updateCalenderOnDateSelect);
+            }
         }
     };
 
