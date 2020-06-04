@@ -1,8 +1,9 @@
 // Calender Controller
 const calenderController = (() => {
     const d = new Date();
-    const calenderInfo = (nextOrPrev = 0) => {
+    const calenderInfo = ({ nextOrPrev, dateSel } = { nextOrPrev: 0, dateSel: d.getDate() } ) => {
         d.setMonth(d.getMonth() + nextOrPrev);
+        d.setDate(dateSel || d.getDate());
 
         // Algorith to get the number of days in a month
         const drefFrom = new Date(d.getFullYear(), d.getMonth());
@@ -34,7 +35,7 @@ const calenderController = (() => {
     return {
         getCalInfo: () => calenderInfo(),
 
-        updateMonth: (action) => (action === 'next' ? calenderInfo(1) : calenderInfo(-1)),
+        updateMonth: (action) => (action === 'next' ? calenderInfo({ nextOrPrev: 1 }) : calenderInfo({ nextOrPrev: -1 })),
     };
 })();
 
@@ -57,6 +58,7 @@ const UIController = (() => {
     };
 
     const selector = (elem) => document.querySelector(elem);
+    // const selectorAll = (elem) => document.querySelectorAll(elem);
 
     const htmlEmpty = '<span class="empty"></span>';
 
