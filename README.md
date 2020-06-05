@@ -1,4 +1,4 @@
-# Date Picker with Calender in JavaScript
+# Date Picker with Calendar in JavaScript
 
 This is a simulation of the **Android App Calender Event Date Pick**
 
