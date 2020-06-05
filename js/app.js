@@ -1,7 +1,15 @@
 // Calender Controller
 const calenderController = (() => {
-    let okClick = null;
     const d = new Date();
+    let apply = null;
+    const yearHome = d.getFullYear();
+    const fullDateHome = d.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+    });
+    const defaultDate = () => ({ fullDateHome, yearHome });
+
     const calenderInfo = ({ nextOrPrev, dateSel, yearSel } = { nextOrPrev: 0, dateSel: d.getDate(), yearSel: d.getFullYear() } ) => {
         d.setMonth(d.getMonth() + (nextOrPrev || 0), dateSel || d.getDate() === 31 ? 30 : dateSel || d.getDate());
         d.setDate(dateSel || d.getDate());
@@ -19,6 +27,11 @@ const calenderController = (() => {
             month: 'short',
             day: 'numeric',
         });
+        const fullDateSel = d.toLocaleDateString('en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+        });
         const monthYear = d.toLocaleDateString('en-GB', {
             month: 'long',
             year: 'numeric',
@@ -30,7 +43,7 @@ const calenderController = (() => {
         const currWeek = d.getDay();
         // console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
 
-        okClick = () => ({ fullDate, year });
+        apply = () => ({ fullDateSel, year });
 
         return {
             year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek,
@@ -48,6 +61,8 @@ const calenderController = (() => {
 
 
     return {
+        getDefaultDate: () => defaultDate(),
+
         getCalInfo: () => calenderInfo(),
 
         updateMonth: (action) => (action === 'next'
@@ -57,7 +72,7 @@ const calenderController = (() => {
 
         updateCalenderOnYearSelect: (value) => calenderInfo({ yearSel: value }).forYearSelect,
 
-        applyChanges: () => okClick(),
+        applyChanges: () => apply(),
     };
 })();
 
@@ -136,7 +151,18 @@ const UIController = (() => {
 
     return {
         // What to see when the App is launched
-        preset: ({
+        preset: ({ fullDateHome, yearHome }) => {
+            setStyle(DOMStrings.calBox, 'display', 'none');
+            const [day, md] = fullDateHome.split(', ');
+            setHtml(DOMStrings.homeDate, `<span class='p'>${day}</span>, <span class='g'>${md}</span>, <span class='p'>${yearHome}</span>`)  
+        },
+
+        showCalender: () => {
+            setStyle(DOMStrings.home, 'display', 'none');
+            setStyle(DOMStrings.calBox, 'display', 'block');
+        },
+        
+        theCalender: ({
             year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek,
         }) => {
             let countOffsetStart = 0;
@@ -145,33 +171,25 @@ const UIController = (() => {
             const noOffsetStart = 0;
             const noOffsetEnd = 7;
             currMonthYear = monthYear;
-            setStyle(DOMStrings.calBox, 'display', 'none');
+            setStyle(DOMStrings.yearSelector, 'display', 'none');
             setText(DOMStrings.year, year);
             setText(DOMStrings.fullDate, fullDate);
             setText(DOMStrings.monthYear, monthYear);
-            const [day, md] = fullDate.split(', ');
-            setHtml(DOMStrings.homeDate, `<span class='p'>${day}</span>, <span class='g'>${md}</span>, <span class='p'>${year}</span>`)
 
-            const offsetStart = offset;
-            offsetStart(weekStart, countOffsetStart, noOffsetStart);
-
-            const supplyDates = supply;
-            supplyDates(dateCount, daysInMonth, DOMStrings.calNumsDiv);
-
-            const offsetEnd = offset;
-            offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
+                const offsetStart = offset;
+                offsetStart(weekStart, countOffsetStart, noOffsetStart);
+    
+                const supplyDates = supply;
+                supplyDates(dateCount, daysInMonth, DOMStrings.calNumsDiv);
+    
+                const offsetEnd = offset;
+                offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
 
             // current date
             setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
             setStyle(`#date-${date}`, 'color', 'rgb(138, 43, 266)').classList.add('selected');
 
-            selected.setDate(date);            
-        },
-
-        showCalender: () => {
-            setStyle(DOMStrings.home, 'display', 'none');
-            setStyle(DOMStrings.calBox, 'display', 'block');
-            setStyle(DOMStrings.yearSelector, 'display', 'none');
+            selected.setDate(date);          
         },
 
 
@@ -262,10 +280,10 @@ const UIController = (() => {
             }
         },
 
-        applyChanges: ({ fullDate, year }) => {
+        applyChanges: ({ fullDateSel, year }) => {
             setStyle(DOMStrings.calBox, 'display', 'none');
             setStyle(DOMStrings.home, 'display', 'flex');
-            const [day, md] = fullDate.split(', ');
+            const [day, md] = fullDateSel.split(', ');
             setHtml(DOMStrings.homeDate, `<span class='p'>${day}</span>, <span class='g'>${md}</span>, <span class='p'>${year}</span>`);
         },
 
@@ -299,9 +317,16 @@ const controller = ((clCtrl, UICtrl) => {
         [...selectAll(DOM.dates)].map((elem) => action.call(elem, 'click', updateCalenderOnDateSelect));
         
         [...selectAll(DOM.allYears)].map((elem) => action.call(elem, 'click', updateCalenderOnYearSelect));
-
+        
         action.call(select(DOM.okBtn), 'click', applyChanges);
         action.call(select(DOM.cancelBtn), 'click', discardChanges);
+    };
+    
+    const showCalender = (ev) => {
+        if (ev) {
+            UICtrl.showCalender();
+            [...selectAll(DOM.dates)].map((elem) => action.call(elem, 'click', updateCalenderOnDateSelect));
+        }
     };
     
     const updateMonth = (ev) => {
@@ -337,11 +362,6 @@ const controller = ((clCtrl, UICtrl) => {
         }
     };
 
-    const showCalender = (ev) => {
-        if (ev) {
-            UICtrl.showCalender();
-        }
-    };
 
     const discardChanges = (ev) => {
         if (ev) {
@@ -358,7 +378,8 @@ const controller = ((clCtrl, UICtrl) => {
 
     return {
         init() {
-            UICtrl.preset(clCtrl.getCalInfo());
+            UICtrl.preset(clCtrl.getDefaultDate());
+            UICtrl.theCalender(clCtrl.getCalInfo());
             setupEventListeners();
         },
     };
