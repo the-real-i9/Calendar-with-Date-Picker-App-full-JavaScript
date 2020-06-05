@@ -1,5 +1,6 @@
 // Calender Controller
 const calenderController = (() => {
+    let okClick = null;
     const d = new Date();
     const calenderInfo = ({ nextOrPrev, dateSel, yearSel } = { nextOrPrev: 0, dateSel: d.getDate(), yearSel: d.getFullYear() } ) => {
         d.setMonth(d.getMonth() + (nextOrPrev || 0), dateSel || d.getDate() === 31 ? 30 : dateSel || d.getDate());
@@ -27,8 +28,10 @@ const calenderController = (() => {
         const weekEnd = 7 - drefTo.getDay();
         const date = d.getDate();
         const currWeek = d.getDay();
-        console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
-        
+        // console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
+
+        okClick = () => ({ fullDate, year });
+
         return {
             year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek,
             get forMonthUpdate() {
@@ -54,6 +57,7 @@ const calenderController = (() => {
 
         updateCalenderOnYearSelect: (value) => calenderInfo({ yearSel: value }).forYearSelect,
 
+        applyChanges: () => okClick(),
     };
 })();
 
@@ -74,6 +78,9 @@ const UIController = (() => {
         yearSelector: '.yearSelector',
         calender: '.calender',
         allYears: '.allYears',
+        dateSelBtn: '.datesel-btn',
+        home: '.date-disp',
+        homeDate: '.sel-date',
     };
 
     const selector = (elem) => document.querySelector(elem);
@@ -138,10 +145,12 @@ const UIController = (() => {
             const noOffsetStart = 0;
             const noOffsetEnd = 7;
             currMonthYear = monthYear;
+            setStyle(DOMStrings.calBox, 'display', 'none');
             setText(DOMStrings.year, year);
             setText(DOMStrings.fullDate, fullDate);
             setText(DOMStrings.monthYear, monthYear);
-            setStyle(DOMStrings.yearSelector, 'display', 'none');
+            const [day, md] = fullDate.split(', ');
+            setHtml(DOMStrings.homeDate, `<span class='p'>${day}</span>, <span class='g'>${md}</span>, <span class='p'>${year}</span>`)
 
             const offsetStart = offset;
             offsetStart(weekStart, countOffsetStart, noOffsetStart);
@@ -158,6 +167,13 @@ const UIController = (() => {
 
             selected.setDate(date);            
         },
+
+        showCalender: () => {
+            setStyle(DOMStrings.home, 'display', 'none');
+            setStyle(DOMStrings.calBox, 'display', 'block');
+            setStyle(DOMStrings.yearSelector, 'display', 'none');
+        },
+
 
         updateMonth: ({
             monthYear, daysInMonth, weekStart, weekEnd,
@@ -246,6 +262,18 @@ const UIController = (() => {
             }
         },
 
+        applyChanges: ({ fullDate, year }) => {
+            setStyle(DOMStrings.calBox, 'display', 'none');
+            setStyle(DOMStrings.home, 'display', 'flex');
+            const [day, md] = fullDate.split(', ');
+            setHtml(DOMStrings.homeDate, `<span class='p'>${day}</span>, <span class='g'>${md}</span>, <span class='p'>${year}</span>`);
+        },
+
+        discardChanges: () => {
+            setStyle(DOMStrings.calBox, 'display', 'none');
+            setStyle(DOMStrings.home, 'display', 'flex');
+        },
+
         getDOMStrings: () => DOMStrings,
         getSelectors: (elem) => selector(elem),
         getAllSelector: (elem) => selectorAll(elem),
@@ -261,15 +289,19 @@ const controller = ((clCtrl, UICtrl) => {
         return this.addEventListener(event, action);
     };
     const setupEventListeners = () => {
+        action.call(select(DOM.dateSelBtn), 'click', showCalender);
+
         action.call(select(DOM.navRight), 'click', updateMonth);
         action.call(select(DOM.navLeft), 'click', updateMonth);
 
         action.call(select(DOM.year), 'click', displayYearSelector);
 
-
         [...selectAll(DOM.dates)].map((elem) => action.call(elem, 'click', updateCalenderOnDateSelect));
         
         [...selectAll(DOM.allYears)].map((elem) => action.call(elem, 'click', updateCalenderOnYearSelect));
+
+        action.call(select(DOM.okBtn), 'click', applyChanges);
+        action.call(select(DOM.cancelBtn), 'click', discardChanges);
     };
     
     const updateMonth = (ev) => {
@@ -304,6 +336,25 @@ const controller = ((clCtrl, UICtrl) => {
             [...selectAll(DOM.dates)].map((elem) => action.call(elem, 'click', updateCalenderOnDateSelect));
         }
     };
+
+    const showCalender = (ev) => {
+        if (ev) {
+            UICtrl.showCalender();
+        }
+    };
+
+    const discardChanges = (ev) => {
+        if (ev) {
+            UICtrl.discardChanges();
+        }
+    };
+
+    const applyChanges = (ev) => {
+        if (ev) {
+            UICtrl.applyChanges(clCtrl.applyChanges());
+        }
+    };
+
 
     return {
         init() {

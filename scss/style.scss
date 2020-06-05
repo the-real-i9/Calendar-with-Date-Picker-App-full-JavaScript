@@ -1,10 +1,7 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Ubuntu';
-}
-
+$primCol: rgb(138, 43, 266);
+$grey: rgb(150, 150, 150);
+$scrollCol: rgb(228, 227, 227);
+$shadow: rgba(190, 190, 190, 0.301);
 $fontWeight: (
     "light": 300,
     "regular": 400,
@@ -23,22 +20,63 @@ $fontWeight: (
     flex-direction: $dir;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu';
+}
+
 html, body {
     @include flex(center, center);
     width: 100%;
     height: 100%;
+    background: #fff;
+}
+
+.date-disp {
+    @include flex(center, center, column);
+
+    .sel-date {
+        font-size: 40px;
+        font-weight: weight(bold);
+        
+        .p {
+            color: $primCol;
+        }
+        .g {
+            color: $grey;
+        }
+    }
+
+    .datesel-btn {
+        width: 150px;
+        height: 50px;
+        background: $primCol;
+        outline: none;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+        box-shadow: 0 0 20px $shadow;
+        border-radius: 5px;
+        font-weight: weight(regular);
+        margin-top: 10px;
+        cursor: pointer;
+        transition: background .5s ease-in;
+    }
 }
 
 .c-box {
+    display: none;
     width: 375px;
     // height: 450px;
     background: #fff;
-    box-shadow: 0px 0px 99px rgba(190, 190, 190, 0.301);
+    box-shadow: 0px 0px 99px $shadow;
     border-radius: 15px;
     padding: 20px 25px;
 
     .year {
-        color: rgb(150, 150, 150);
+        color: $grey;
         font-weight: weight(medium);
         cursor: pointer;
     }
@@ -76,7 +114,7 @@ html, body {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             span {
-                color: rgb(150, 150, 150);
+                color: $grey;
                 margin: auto;
                 font-weight: weight(light);
             }
@@ -101,7 +139,7 @@ html, body {
             }
 
             .selected {
-                background: rgb(138, 43, 266);
+                background: $primCol;
                 color: #fff !important;
             }
         }
@@ -126,7 +164,7 @@ html, body {
 
         &::-webkit-scrollbar-thumb {
             width: 5px;
-            background: rgb(228, 227, 227);
+            background: $scrollCol;
             border-radius: 10px;
         }
     }
@@ -144,7 +182,7 @@ html, body {
                 padding: 5px;
 
                 &:hover {
-                    background: rgb(138, 43, 266);
+                    background: $primCol;
                     // padding: 5px;
                     color: #fff;
                     border-radius: 5px;
@@ -156,13 +194,13 @@ html, body {
     
     .about {
         font-size: 13px;
-        color: rgb(150, 150, 150);
+        color: $grey;
         font-weight: weight(light);
         margin: 0 auto;
         width: 50%;
 
         #author {
-            color: rgb(138, 43, 266);
+            color: $primCol;
             font-weight: weight(regular);
         }
     }

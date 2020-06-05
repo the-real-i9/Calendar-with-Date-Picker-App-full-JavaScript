@@ -18,9 +18,58 @@ html, body {
           align-items: center;
   width: 100%;
   height: 100%;
+  background: #fff;
+}
+
+.date-disp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.date-disp .sel-date {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.date-disp .sel-date .p {
+  color: #8a2bff;
+}
+
+.date-disp .sel-date .g {
+  color: #969696;
+}
+
+.date-disp .datesel-btn {
+  width: 150px;
+  height: 50px;
+  background: #8a2bff;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  -webkit-box-shadow: 0 0 20px rgba(190, 190, 190, 0.301);
+          box-shadow: 0 0 20px rgba(190, 190, 190, 0.301);
+  border-radius: 5px;
+  font-weight: 400;
+  margin-top: 10px;
+  cursor: pointer;
+  -webkit-transition: background .5s ease-in;
+  transition: background .5s ease-in;
 }
 
 .c-box {
+  display: none;
   width: 375px;
   background: #fff;
   -webkit-box-shadow: 0px 0px 99px rgba(190, 190, 190, 0.301);
