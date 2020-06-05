@@ -46,6 +46,7 @@ html, body {
 }
 
 .c-box .calender .cal-scroll {
+  width: 90%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -55,6 +56,7 @@ html, body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  margin: 0 auto;
 }
 
 .c-box .calender .cal-scroll .my {
