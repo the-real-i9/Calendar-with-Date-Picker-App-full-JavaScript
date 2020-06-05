@@ -184,13 +184,6 @@ const UIController = (() => {
                 year: 'numeric',
             });
 
-            // for (const elem of selectorAll(DOMStrings.dates)) {
-            //     elem.classList.remove('selected');
-            // }
-
-            // for (const elem of selectorAll(DOMStrings.weekDays)) {
-            //     elem.style.color = '';
-            // }
 
             // While traversing the calender, if current calender === current month year
             // then get the current date selected else we dont't wanna select the date
