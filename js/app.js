@@ -11,7 +11,7 @@ const calenderController = (() => {
     const defaultDate = () => ({ fullDateHome, yearHome });
 
     const calenderInfo = ({ nextOrPrev, dateSel, yearSel } = { nextOrPrev: 0, dateSel: d.getDate(), yearSel: d.getFullYear() } ) => {
-        d.setMonth(d.getMonth() + (nextOrPrev || 0), dateSel || d.getDate() === 31 ? 30 : dateSel || d.getDate());
+        d.setMonth(d.getMonth() + (nextOrPrev || 0), dateSel || d.getDate() === 31 ? 29 : dateSel || d.getDate());
         d.setDate(dateSel || d.getDate());
         d.setFullYear(yearSel || d.getFullYear());
         
@@ -212,6 +212,8 @@ const UIController = (() => {
             setHtml(DOMStrings.calNumsDiv, '');
             setText(DOMStrings.monthYear, monthYear);
 
+            [...selectorAll(DOMStrings.dates)].map((elem) => elem.classList.remove('selected'));
+
             const offsetStart = offset;
             offsetStart(weekStart, countOffsetStart, noOffsetStart);
 
@@ -309,7 +311,7 @@ const UIController = (() => {
             setTimeout(() => {
                 setStyle(DOMStrings.calBox, 'display', 'none');
                 setStyle(DOMStrings.home, 'display', 'flex');
-            }, 10);
+            }, 200);
         },
 
         getDOMStrings: () => DOMStrings,
