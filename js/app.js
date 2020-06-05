@@ -146,12 +146,7 @@ const UIController = (() => {
             setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
             setStyle(`#date-${date}`, 'color', 'rgb(138, 43, 266)').classList.add('selected');
 
-            // const [monthPart, yearPart] = monthYear.split(' ');
-            selected.setDate(date);
-            // selected.setMonth(monthPart);
-            // selected.setFullYear(yearPart);
-            // console.log(selected);
-            
+            selected.setDate(date);            
         },
 
         updateMonth: ({
@@ -210,7 +205,6 @@ const UIController = (() => {
             [...selectorAll(DOMStrings.allYears)].map((el) => {
                 [el.style.fontSize, el.style.color] = ['19px', ''];
             });
-            // console.log(elem);
             
             
             setStyle(`#year-${year}`, 'color', 'rgb(138, 43, 266)').style.fontSize = '30px';
@@ -230,10 +224,7 @@ const UIController = (() => {
             setText(DOMStrings.fullDate, fullDate);
             [...selectorAll(DOMStrings.dates)].map((el) => el.classList.remove('selected'));
             setStyle(`#date-${date}`).classList.add('selected');
-            // const [month, year] = monthYear.split(' ');
             selected.setDate(date);
-            // selected.setMonth(month);
-            // selected.setFullYear(year);
         },
 
         updateCalenderOnYearSelect: ({
