@@ -27,10 +27,19 @@ const calenderController = (() => {
         const weekEnd = 7 - drefTo.getDay();
         const date = d.getDate();
         const currWeek = d.getDay();
-        // console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
+        console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
         
         return {
             year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek,
+            get forMonthUpdate() {
+                return { monthYear, daysInMonth, weekStart, weekEnd };
+            },
+            get forDateSelect() {
+                return { fullDate, monthYear, date };
+            },
+            get forYearSelect() {
+                return { year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date };
+            },
         };
     };
 
@@ -38,11 +47,12 @@ const calenderController = (() => {
     return {
         getCalInfo: () => calenderInfo(),
 
-        updateMonth: (action) => (action === 'next' ? calenderInfo({ nextOrPrev: 1 }) : calenderInfo({ nextOrPrev: -1 })),
+        updateMonth: (action) => (action === 'next'
+        ? calenderInfo({ nextOrPrev: 1 }).forMonthUpdate : calenderInfo({ nextOrPrev: -1 }).forMonthUpdate),
 
-        updateCalenderOnDateSelect: (value) => calenderInfo({ dateSel: value }),
+        updateCalenderOnDateSelect: (value) => calenderInfo({ dateSel: value }).forDateSelect,
 
-        updateCalenderOnYearSelect: (value) => calenderInfo({ yearSel: value }),
+        updateCalenderOnYearSelect: (value) => calenderInfo({ yearSel: value }).forYearSelect,
 
     };
 })();
@@ -150,7 +160,7 @@ const UIController = (() => {
         },
 
         updateMonth: ({
-            monthYear, daysInMonth, weekStart, weekEnd, date,
+            monthYear, daysInMonth, weekStart, weekEnd,
         }) => {
             let countOffsetStart = 0;
             let dateCount = 1;
@@ -218,7 +228,7 @@ const UIController = (() => {
         },
 
         updateCalenderOnDateSelect: ({
-            fullDate,  monthYear, date,
+            fullDate, monthYear, date,
         }) => {
             currMonthYear = monthYear;
             setText(DOMStrings.fullDate, fullDate);
@@ -234,6 +244,8 @@ const UIController = (() => {
 
             setText(DOMStrings.fullDate, fullDate);
             setText(DOMStrings.year, year);
+
+            addClass(`#date-${selected.getDate()}`, 'selected');
 
             if (selector(DOMStrings.yearSelector).style.display !== 'none') {
                 setStyle(DOMStrings.calender, 'display', 'block');
