@@ -51,7 +51,7 @@ const calenderController = (() => {
                 return { monthYear, daysInMonth, weekStart, weekEnd };
             },
             get forDateSelect() {
-                return { fullDate, monthYear, date };
+                return { year, fullDate, monthYear, date };
             },
             get forYearSelect() {
                 return { year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date };
@@ -269,10 +269,11 @@ const UIController = (() => {
         },
 
         updateCalenderOnDateSelect: ({
-            fullDate, monthYear, date,
+            year, fullDate, monthYear, date,
         }) => {
             currMonthYear = monthYear;
             setText(DOMStrings.fullDate, fullDate);
+            setText(DOMStrings.year, year);
             [...selectorAll(DOMStrings.dates)].map((el) => el.classList.remove('selected'));
             setStyle(`#date-${date}`).classList.add('selected');
             selected.setDate(date);
@@ -333,6 +334,7 @@ const controller = ((clCtrl, UICtrl) => {
 
         action.call(select(DOM.navRight), 'click', updateMonth);
         action.call(select(DOM.navLeft), 'click', updateMonth);
+        action.call(document, 'keydown', updateMonth);
 
         action.call(select(DOM.year), 'click', displayYearSelector);
 
@@ -352,7 +354,15 @@ const controller = ((clCtrl, UICtrl) => {
     };
     
     const updateMonth = (ev) => {
-        (ev?.target.id === 'nav-right' ? UICtrl.updateMonth(clCtrl.updateMonth('next')) : UICtrl.updateMonth(clCtrl.updateMonth('prev')));
+        if (ev?.type === 'click') {
+            (ev.target.id === 'nav-right' ? UICtrl.updateMonth(clCtrl.updateMonth('next')) : UICtrl.updateMonth(clCtrl.updateMonth('prev')));
+        } else if(ev?.type === 'keydown') {
+            if (ev.keyCode === 37) {
+                UICtrl.updateMonth(clCtrl.updateMonth('prev'));
+            } else if(ev.keyCode === 39) {
+                UICtrl.updateMonth(clCtrl.updateMonth('next'));
+            }
+        }
         
         [...selectAll(DOM.dates)].map((elem) => action.call(elem, 'click', updateCalenderOnDateSelect));
         
