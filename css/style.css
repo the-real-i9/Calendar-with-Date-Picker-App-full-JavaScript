@@ -43,17 +43,17 @@ html, body {
 }
 
 .date-disp .sel-date .p {
-  color: #8a2bff;
+  color: #1a73e8;
 }
 
 .date-disp .sel-date .g {
-  color: #969696;
+  color: #000;
 }
 
 .date-disp .datesel-btn {
   width: 150px;
   height: 50px;
-  background: #8a2bff;
+  background: #1a73e8;
   outline: none;
   border: none;
   color: #fff;
@@ -69,13 +69,16 @@ html, body {
 }
 
 .c-box {
-  display: none;
   width: 375px;
   background: #fff;
   -webkit-box-shadow: 0px 0px 99px rgba(190, 190, 190, 0.301);
           box-shadow: 0px 0px 99px rgba(190, 190, 190, 0.301);
   border-radius: 15px;
   padding: 20px 25px;
+  -webkit-transition: opacity .2s ease-in, -webkit-transform .2s ease-in;
+  transition: opacity .2s ease-in, -webkit-transform .2s ease-in;
+  transition: opacity .2s ease-in, transform .2s ease-in;
+  transition: opacity .2s ease-in, transform .2s ease-in, -webkit-transform .2s ease-in;
 }
 
 .c-box .year {
@@ -158,7 +161,7 @@ html, body {
 }
 
 .c-box .calender .cal-nums .selected {
-  background: #8a2bff;
+  background: #1a73e8;
   color: #fff !important;
 }
 
@@ -181,6 +184,8 @@ html, body {
   overflow-y: scroll;
   font-size: 19px;
   font-weight: 400;
+  -webkit-transition: opacity .2s ease-in;
+  transition: opacity .2s ease-in;
 }
 
 .c-box .yearSelector span {
@@ -230,7 +235,7 @@ html, body {
 }
 
 .c-box .actions .act-cont div:hover {
-  background: #8a2bff;
+  background: #1a73e8;
   color: #fff;
   border-radius: 5px;
 }
@@ -244,7 +249,7 @@ html, body {
 }
 
 .c-box .about #author {
-  color: #8a2bff;
+  color: #1a73e8;
   font-weight: 400;
 }
 /*# sourceMappingURL=style.css.map */

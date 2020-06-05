@@ -103,6 +103,8 @@ const UIController = (() => {
 
     const htmlEmpty = '<span class="empty"></span>';
 
+    const primCol = '#1a73e8';
+
     const offset = (week, count, num) => {
         if (week === num) return;
         selector(DOMStrings.calNumsDiv).insertAdjacentHTML('beforeend', htmlEmpty);
@@ -160,6 +162,12 @@ const UIController = (() => {
         showCalender: () => {
             setStyle(DOMStrings.home, 'display', 'none');
             setStyle(DOMStrings.calBox, 'display', 'block');
+            setStyle(DOMStrings.calBox, 'opacity', '0');
+            setStyle(DOMStrings.calBox, 'transform', 'translateY(20px)');
+            setTimeout(() => {
+                setStyle(DOMStrings.calBox, 'transform', 'translateY(0)');
+                setStyle(DOMStrings.calBox, 'opacity', '1');
+            }, 10);
         },
         
         theCalender: ({
@@ -186,8 +194,8 @@ const UIController = (() => {
                 offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
 
             // current date
-            setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
-            setStyle(`#date-${date}`, 'color', 'rgb(138, 43, 266)').classList.add('selected');
+            setStyle(`#day-${currWeek}`, 'color', primCol);
+            setStyle(`#date-${date}`, 'color', primCol).classList.add('selected');
 
             selected.setDate(date);          
         },
@@ -226,8 +234,8 @@ const UIController = (() => {
                 addClass(`#date-${selected.getDate()}`, 'selected');
             }
             if (monthYear === locale) {
-                setStyle(`#day-${new Date().getDay()}`, 'color', 'rgb(138, 43, 266)');
-                setStyle(`#date-${new Date().getDate()}`, 'color', 'rgb(138, 43, 266)');
+                setStyle(`#day-${new Date().getDay()}`, 'color', primCol);
+                setStyle(`#date-${new Date().getDate()}`, 'color', primCol);
             } else {
                 setStyle(`#day-${new Date().getDay()}`, 'color', '');
             }
@@ -237,6 +245,10 @@ const UIController = (() => {
             const year = selector(DOMStrings.year).textContent;
             setStyle(DOMStrings.calender, 'display', 'none');
             setStyle(DOMStrings.yearSelector, 'display', 'flex');
+            setStyle(DOMStrings.yearSelector, 'opacity', '0');
+            setTimeout(() => {
+                setStyle(DOMStrings.yearSelector, 'opacity', '1');
+            }, 10);
 
 
             [...selectorAll(DOMStrings.allYears)].map((el) => {
@@ -244,7 +256,7 @@ const UIController = (() => {
             });
             
             
-            setStyle(`#year-${year}`, 'color', 'rgb(138, 43, 266)').style.fontSize = '30px';
+            setStyle(`#year-${year}`, 'color', primCol).style.fontSize = '30px';
 
             const coor = selector(`#year-${year}`).getBoundingClientRect();
             selector(DOMStrings.yearSelector).scrollBy({
@@ -281,15 +293,23 @@ const UIController = (() => {
         },
 
         applyChanges: ({ fullDateSel, year }) => {
-            setStyle(DOMStrings.calBox, 'display', 'none');
-            setStyle(DOMStrings.home, 'display', 'flex');
+            setStyle(DOMStrings.calBox, 'transform', 'translateY(20px)');
+            setStyle(DOMStrings.calBox, 'opacity', '0');
+            setTimeout(() => {
+                setStyle(DOMStrings.calBox, 'display', 'none');
+                setStyle(DOMStrings.home, 'display', 'flex');
+            }, 200);
             const [day, md] = fullDateSel.split(', ');
             setHtml(DOMStrings.homeDate, `<span class='p'>${day}</span>, <span class='g'>${md}</span>, <span class='p'>${year}</span>`);
         },
 
         discardChanges: () => {
-            setStyle(DOMStrings.calBox, 'display', 'none');
-            setStyle(DOMStrings.home, 'display', 'flex');
+            setStyle(DOMStrings.calBox, 'transform', 'translateY(20px)');
+            setStyle(DOMStrings.calBox, 'opacity', '0');
+            setTimeout(() => {
+                setStyle(DOMStrings.calBox, 'display', 'none');
+                setStyle(DOMStrings.home, 'display', 'flex');
+            }, 10);
         },
 
         getDOMStrings: () => DOMStrings,
