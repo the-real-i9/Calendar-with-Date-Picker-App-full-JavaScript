@@ -37,6 +37,45 @@ html, body {
           flex-direction: column;
 }
 
+.date-disp .intro-sec {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.date-disp .intro-sec .intro {
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.date-disp .intro-sec .intro .me {
+  color: #1a73e8;
+  font-weight: 500;
+}
+
+.date-disp .intro-sec .socials {
+  font-size: 30px;
+}
+
+.date-disp .intro-sec .socials a {
+  color: #000;
+}
+
+.date-disp .intro-sec .socials a:hover {
+  color: #1a73e8;
+}
+
 .date-disp .sel-date {
   font-size: 40px;
   font-weight: 700;
@@ -232,6 +271,7 @@ html, body {
 .c-box .actions .act-cont div {
   cursor: pointer;
   padding: 5px;
+  color: #1a73e8;
 }
 
 .c-box .actions .act-cont div:hover {

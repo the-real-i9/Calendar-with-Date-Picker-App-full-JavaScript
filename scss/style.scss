@@ -37,6 +37,32 @@ html, body {
 .date-disp {
     @include flex(center, center, column);
 
+    .intro-sec {
+        @include flex(center, center, column);
+        margin-bottom: 20px;
+        
+        .intro {
+            font-size: 30px;
+            font-weight: weight(regular);
+    
+            .me {
+                color: $primCol;
+                font-weight: weight(medium);
+            }
+        }
+
+        .socials {
+            font-size: 30px;
+            a {
+                color: #000;
+                &:hover {
+                    color: $primCol;
+                }
+            }
+        }
+    }
+
+
     .sel-date {
         font-size: 40px;
         font-weight: weight(bold);
@@ -181,6 +207,7 @@ html, body {
             div {
                 cursor: pointer;
                 padding: 5px;
+                color: $primCol;
 
                 &:hover {
                     background: $primCol;
