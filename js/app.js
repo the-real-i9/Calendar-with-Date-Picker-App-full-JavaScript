@@ -112,6 +112,10 @@ const UIController = (() => {
         selector(elem).classList.remove(value);
     };
 
+    // Locals needed for last memory
+    let selected = new Date();
+    let currMonthYear = null;
+
 
     return {
         // What to see when the App is launched
@@ -123,6 +127,7 @@ const UIController = (() => {
             let countOffsetEnd = 0;
             const noOffsetStart = 0;
             const noOffsetEnd = 7;
+            currMonthYear = monthYear;
             setText(DOMStrings.year, year);
             setText(DOMStrings.fullDate, fullDate);
             setText(DOMStrings.monthYear, monthYear);
@@ -140,6 +145,13 @@ const UIController = (() => {
             // current date
             setStyle(`#day-${currWeek}`, 'color', 'rgb(138, 43, 266)');
             setStyle(`#date-${date}`, 'color', 'rgb(138, 43, 266)').classList.add('selected');
+
+            // const [monthPart, yearPart] = monthYear.split(' ');
+            selected.setDate(date);
+            // selected.setMonth(monthPart);
+            // selected.setFullYear(yearPart);
+            // console.log(selected);
+            
         },
 
         updateMonth: ({
@@ -162,6 +174,11 @@ const UIController = (() => {
             const offsetEnd = offset;
             offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
 
+            const locale = new Date().toLocaleDateString('en-GB', {
+                month: 'long',
+                year: 'numeric',
+            });
+
             // for (const elem of selectorAll(DOMStrings.dates)) {
             //     elem.classList.remove('selected');
             // }
@@ -173,13 +190,12 @@ const UIController = (() => {
             // While traversing the calender, if current calender === current month year
             // then get the current date selected else we dont't wanna select the date
             // from the code
-            if (monthYear === new Date().toLocaleDateString('en-GB', {
-                month: 'long',
-                year: 'numeric',
-            })) {
+            if (monthYear === currMonthYear) {
+                addClass(`#date-${selected.getDate()}`, 'selected');
+            }
+            if (monthYear === locale) {
                 setStyle(`#day-${new Date().getDay()}`, 'color', 'rgb(138, 43, 266)');
                 setStyle(`#date-${new Date().getDate()}`, 'color', 'rgb(138, 43, 266)');
-                addClass(`#date-${date}`, 'selected');
             } else {
                 setStyle(`#day-${new Date().getDay()}`, 'color', '');
             }
@@ -208,13 +224,16 @@ const UIController = (() => {
         },
 
         updateCalenderOnDateSelect: ({
-            fullDate, date,
+            fullDate,  monthYear, date,
         }) => {
+            currMonthYear = monthYear;
             setText(DOMStrings.fullDate, fullDate);
-            [...selectorAll(DOMStrings.dates)].map((el) => {
-                el.classList.remove('selected');
-            });
+            [...selectorAll(DOMStrings.dates)].map((el) => el.classList.remove('selected'));
             setStyle(`#date-${date}`).classList.add('selected');
+            // const [month, year] = monthYear.split(' ');
+            selected.setDate(date);
+            // selected.setMonth(month);
+            // selected.setFullYear(year);
         },
 
         updateCalenderOnYearSelect: ({
@@ -251,23 +270,19 @@ const controller = ((clCtrl, UICtrl) => {
 
         action.call(select(DOM.year), 'click', displayYearSelector);
 
-        for (const elem of selectAll(DOM.dates)) {
-            action.call(elem, 'click', updateCalenderOnDateSelect);
-        }
 
-        for (const elem of selectAll(DOM.allYears)) {
-            action.call(elem, 'click', updateCalenderOnYearSelect);
-        }
+        [...selectAll(DOM.dates)].map((elem) => action.call(elem, 'click', updateCalenderOnDateSelect));
+        
+        [...selectAll(DOM.allYears)].map((elem) => action.call(elem, 'click', updateCalenderOnYearSelect));
     };
-
+    
     const updateMonth = (ev) => {
         (ev?.target.id === 'nav-right' ? UICtrl.updateMonth(clCtrl.updateMonth('next')) : UICtrl.updateMonth(clCtrl.updateMonth('prev')));
-
-        for (const elem of selectAll(DOM.dates)) {
-            action.call(elem, 'click', updateCalenderOnDateSelect);
-        }
+        
+        [...selectAll(DOM.dates)].map((elem) => action.call(elem, 'click', updateCalenderOnDateSelect));
+        
     }
-
+    
     const displayYearSelector = (ev) => {
         if (ev) {
             UICtrl.displayYearSelector();
@@ -276,7 +291,7 @@ const controller = ((clCtrl, UICtrl) => {
             }
         }
     };
-
+    
     const updateCalenderOnDateSelect = (ev) => {
         if (ev) {
             const [selected, value] = ev.target.id.split('-');
@@ -284,15 +299,13 @@ const controller = ((clCtrl, UICtrl) => {
             action.call(select(DOM.year), 'click', displayYearSelector);
         }
     };
-
+    
     const updateCalenderOnYearSelect = (ev) => {
         if (ev) {
             const [selected, value] = ev.target.id.split('-');
             UICtrl.updateCalenderOnYearSelect(clCtrl.updateCalenderOnYearSelect(Number(value)));
             action.call(select(DOM.year), 'click', displayYearSelector);
-            for (const elem of selectAll(DOM.dates)) {
-                action.call(elem, 'click', updateCalenderOnDateSelect);
-            }
+            [...selectAll(DOM.dates)].map((elem) => action.call(elem, 'click', updateCalenderOnDateSelect));
         }
     };
 
