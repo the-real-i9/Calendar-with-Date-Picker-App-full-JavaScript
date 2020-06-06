@@ -10,7 +10,7 @@ const calenderController = (() => {
     });
     const defaultDate = () => ({ fullDateHome, yearHome });
 
-    const calenderInfo = ({ nextOrPrev, dateSel, yearSel } = { nextOrPrev: 0, dateSel: d.getDate(), yearSel: d.getFullYear() } ) => {
+    const calenderInfo = ({ nextOrPrev, dateSel, yearSel } = { nextOrPrev: 0, dateSel: d.getDate(), yearSel: d.getFullYear() }) => {
         d.setMonth(d.getMonth() + (nextOrPrev || 0), dateSel || d.getDate() === 31 ? 29 : dateSel || d.getDate());
         d.setDate(dateSel || d.getDate());
         d.setFullYear(yearSel || d.getFullYear());
@@ -153,13 +153,13 @@ const UIController = (() => {
 
     return {
         // What to see when the App is launched
-        preset: ({ fullDateHome, yearHome }) => {
+        preset({ fullDateHome, yearHome }) {
             setStyle(DOMStrings.calBox, 'display', 'none');
             const [day, md] = fullDateHome.split(', ');
             setHtml(DOMStrings.homeDate, `<span class='p'>${day}</span>, <span class='g'>${md}</span>, <span class='p'>${yearHome}</span>`)
         },
 
-        showCalender: () => {
+        showCalender() {
             setStyle(DOMStrings.home, 'display', 'none');
             setStyle(DOMStrings.calBox, 'display', 'block');
             setStyle(DOMStrings.calBox, 'opacity', '0');
@@ -170,9 +170,9 @@ const UIController = (() => {
             }, 10);
         },
 
-        theCalender: ({
+        theCalender({
             year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek,
-        }) => {
+        }) {
             let countOffsetStart = 0;
             let dateCount = 1;
             let countOffsetEnd = 0;
@@ -184,14 +184,14 @@ const UIController = (() => {
             setText(DOMStrings.fullDate, fullDate);
             setText(DOMStrings.monthYear, monthYear);
 
-                const offsetStart = offset;
-                offsetStart(weekStart, countOffsetStart, noOffsetStart);
+            const offsetStart = offset;
+            offsetStart(weekStart, countOffsetStart, noOffsetStart);
 
-                const supplyDates = supply;
-                supplyDates(dateCount, daysInMonth, DOMStrings.calNumsDiv);
+            const supplyDates = supply;
+            supplyDates(dateCount, daysInMonth, DOMStrings.calNumsDiv);
 
-                const offsetEnd = offset;
-                offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
+            const offsetEnd = offset;
+            offsetEnd(weekEnd, countOffsetEnd, noOffsetEnd);
 
             // current date
             setStyle(`#day-${currWeek}`, 'color', primCol);
@@ -201,9 +201,9 @@ const UIController = (() => {
         },
 
 
-        updateMonth: ({
+        updateMonth({
             monthYear, daysInMonth, weekStart, weekEnd,
-        }) => {
+        }) {
             let countOffsetStart = 0;
             let dateCount = 1;
             let countOffsetEnd = 0;
@@ -243,7 +243,7 @@ const UIController = (() => {
             }
         },
 
-        displayYearSelector: () => {
+        displayYearSelector() {
             const year = selector(DOMStrings.year).textContent;
             setStyle(DOMStrings.calender, 'display', 'none');
             setStyle(DOMStrings.yearSelector, 'display', 'flex');
@@ -268,9 +268,9 @@ const UIController = (() => {
             });
         },
 
-        updateCalenderOnDateSelect: ({
+        updateCalenderOnDateSelect({
             year, fullDate, monthYear, date,
-        }) => {
+        }) {
             currMonthYear = monthYear;
             setText(DOMStrings.fullDate, fullDate);
             setText(DOMStrings.year, year);
@@ -279,10 +279,10 @@ const UIController = (() => {
             selected.setDate(date);
         },
 
-        updateCalenderOnYearSelect: ({
+        updateCalenderOnYearSelect({
             year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date,
-        }) => {
-            UIController.updateMonth({ monthYear, daysInMonth, weekStart, weekEnd, date });
+        }) {
+            this.updateMonth({ monthYear, daysInMonth, weekStart, weekEnd, date });
 
             setText(DOMStrings.fullDate, fullDate);
             setText(DOMStrings.year, year);
@@ -295,7 +295,7 @@ const UIController = (() => {
             }
         },
 
-        applyChanges: ({ fullDateSel, year }) => {
+        applyChanges({ fullDateSel, year }) {
             setStyle(DOMStrings.calBox, 'transform', 'translateY(20px)');
             setStyle(DOMStrings.calBox, 'opacity', '0');
             setTimeout(() => {
@@ -306,7 +306,7 @@ const UIController = (() => {
             setHtml(DOMStrings.homeDate, `<span class='p'>${day}</span>, <span class='g'>${md}</span>, <span class='p'>${year}</span>`);
         },
 
-        discardChanges: () => {
+        discardChanges() {
             setStyle(DOMStrings.calBox, 'transform', 'translateY(20px)');
             setStyle(DOMStrings.calBox, 'opacity', '0');
             setTimeout(() => {
