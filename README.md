@@ -8,4 +8,6 @@ I used the **IIFE Modular JavaScript design pattern** so it's easy to walk throu
 
 Message me via [Twitter](https://twitter.com/Oluwarinolasam2). If you would like to give me a pat on the back of message me.
 
+View Pen [Here](https://codepen.io/mckenney17/pen/GRoJOYz). 
+
 *Enjoy the Code!!!*
