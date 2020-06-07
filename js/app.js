@@ -354,7 +354,7 @@ const controller = ((clCtrl, UICtrl) => {
     const updateMonth = (ev) => {
         if (ev?.type === 'click') {
             (ev.target.id === 'nav-right' ? UICtrl.updateMonth(clCtrl.updateMonth('next')) : UICtrl.updateMonth(clCtrl.updateMonth('prev')));
-        } else if(ev?.type === 'keydown') {
+        } else if(ev?.type === 'keydown' && select(DOM.calBox).style.display !== 'none') {
             if (ev.keyCode === 37) {
                 UICtrl.updateMonth(clCtrl.updateMonth('prev'));
             } else if(ev.keyCode === 39) {
