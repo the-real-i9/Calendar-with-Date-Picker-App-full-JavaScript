@@ -3,7 +3,7 @@
   padding: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-family: 'Ubuntu';
+  font-family: 'Ubuntu', sans-serif;
 }
 
 html, body {
@@ -371,7 +371,7 @@ html, body {
 
 @media (max-width: 580px) {
   .c-box {
-    width: 355px;
+    width: 340px;
   }
 }
 /*# sourceMappingURL=style.css.map */
