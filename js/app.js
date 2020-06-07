@@ -10,10 +10,10 @@ const calenderController = (() => {
     });
     const defaultDate = () => ({ fullDateHome, yearHome });
 
-    const calenderInfo = ({ nextOrPrev, dateSel, yearSel } = { nextOrPrev: 0, dateSel: d.getDate(), yearSel: d.getFullYear() }) => {
-        d.setMonth(d.getMonth() + (nextOrPrev || 0), dateSel || d.getDate() === 31 ? 29 : dateSel || d.getDate());
-        d.setDate(dateSel || d.getDate());
-        d.setFullYear(yearSel || d.getFullYear());
+    const calenderInfo = ({ nextOrPrev = 0, dateSel = d.getDate(), yearSel = d.getFullYear() } = { nextOrPrev, dateSel, yearSel }) => {
+        d.setMonth(d.getMonth() + nextOrPrev, dateSel === 31 ? 29 : dateSel);
+        d.setDate(dateSel);
+        d.setFullYear(yearSel);
 
 
         // Algorith to get the number of days in a month
@@ -63,7 +63,7 @@ const calenderController = (() => {
     return {
         getDefaultDate: () => defaultDate(),
 
-        getCalInfo: () => calenderInfo(),
+        getCalInfo: () => calenderInfo({}),
 
         updateMonth: (action) => (action === 'next'
         ? calenderInfo({ nextOrPrev: 1 }).forMonthUpdate : calenderInfo({ nextOrPrev: -1 }).forMonthUpdate),
