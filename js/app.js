@@ -11,9 +11,7 @@ const calenderController = (() => {
     const defaultDate = () => ({ fullDateHome, yearHome });
 
     const calenderInfo = ({ nextOrPrev = 0, dateSel = d.getDate(), yearSel = d.getFullYear() } = { nextOrPrev, dateSel, yearSel }) => {
-        d.setMonth(d.getMonth() + nextOrPrev, dateSel === 31 ? 29 : dateSel);
-        d.setDate(dateSel);
-        d.setFullYear(yearSel);
+        d.setFullYear(yearSel, d.getMonth() + nextOrPrev, dateSel);
 
 
         // Algorith to get the number of days in a month
@@ -41,7 +39,7 @@ const calenderController = (() => {
         const weekEnd = 7 - drefTo.getDay();
         const date = d.getDate();
         const currWeek = d.getDay();
-        // console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
+        console.log(year, fullDate, monthYear, daysInMonth, weekStart, weekEnd, date, currWeek);
 
         apply = () => ({ fullDateSel, year });
 
