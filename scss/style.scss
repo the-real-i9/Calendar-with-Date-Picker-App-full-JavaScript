@@ -8,6 +8,18 @@ $fontWeight: (
     "medium": 500,
     "bold": 700
 );
+$mobile: 680px;
+$mobile-sm: 580px;
+$fzm: 25px;
+$bwm: 140px;
+$bhm: 40px;
+
+$fzsm: 15px;
+$bwsm: 120px;
+$bhsm: 40px;
+
+$cal-width-m: 365px;
+$cal-width-sm: 355px;
 
 @function weight($name) {
     @return map-get($fontWeight, $name);
@@ -18,6 +30,18 @@ $fontWeight: (
     justify-content: $jc;
     align-items: $ai;;
     flex-direction: $dir;
+}
+
+@mixin mobile {
+    @media (max-width: $mobile) {
+        @content;
+    }
+}
+
+@mixin mobile-sm {
+    @media (max-width: $mobile-sm) {
+        @content;
+    }
 }
 
 * {
@@ -40,6 +64,9 @@ html, body {
     .intro-sec {
         @include flex(center, center, column);
         margin-bottom: 20px;
+        @include mobile {
+            margin-bottom: 10px;
+        }
         
         .intro {
             font-size: 30px;
@@ -48,6 +75,13 @@ html, body {
             .me {
                 color: $primCol;
                 font-weight: weight(medium);
+            }
+
+            @include mobile {
+                font-size: $fzm;
+            }
+            @include mobile-sm {
+                font-size: $fzsm;
             }
         }
 
@@ -58,6 +92,12 @@ html, body {
                 &:hover {
                     color: $primCol;
                 }
+            }
+            @include mobile {
+                font-size: $fzm;
+            }
+            @include mobile-sm {
+                font-size: $fzsm;
             }
         }
     }
@@ -72,6 +112,12 @@ html, body {
         }
         .g {
             color: #000;
+        }
+        @include mobile {
+            font-size: 35px;
+        }
+        @include mobile-sm {
+            font-size: 20px;
         }
     }
 
@@ -89,6 +135,16 @@ html, body {
         margin-top: 10px;
         cursor: pointer;
         transition: background .5s ease-in;
+
+        @include mobile {
+            width: $bwm;
+            height: $bhm;
+            font-size: 15px;
+        }
+        @include mobile-sm {
+            width: $bwsm;
+            height: $bhsm;
+        }
     }
 }
 
@@ -224,13 +280,23 @@ html, body {
         font-size: 13px;
         color: $grey;
         font-weight: weight(light);
-        margin: 0 auto;
-        width: 50%;
+        @include flex(center,center);
 
         #author {
             color: $primCol;
             font-weight: weight(regular);
         }
+
+        @include mobile {
+            font-size: 10px;
+        }
+    }
+
+    @include mobile {
+        width: $cal-width-m;
+    }
+    @include mobile-sm {
+        width: $cal-width-sm;
     }
 }
 

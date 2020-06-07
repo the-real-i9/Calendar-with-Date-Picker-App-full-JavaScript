@@ -54,6 +54,12 @@ html, body {
   margin-bottom: 20px;
 }
 
+@media (max-width: 680px) {
+  .date-disp .intro-sec {
+    margin-bottom: 10px;
+  }
+}
+
 .date-disp .intro-sec .intro {
   font-size: 30px;
   font-weight: 400;
@@ -62,6 +68,18 @@ html, body {
 .date-disp .intro-sec .intro .me {
   color: #1a73e8;
   font-weight: 500;
+}
+
+@media (max-width: 680px) {
+  .date-disp .intro-sec .intro {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 580px) {
+  .date-disp .intro-sec .intro {
+    font-size: 15px;
+  }
 }
 
 .date-disp .intro-sec .socials {
@@ -76,6 +94,18 @@ html, body {
   color: #1a73e8;
 }
 
+@media (max-width: 680px) {
+  .date-disp .intro-sec .socials {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 580px) {
+  .date-disp .intro-sec .socials {
+    font-size: 15px;
+  }
+}
+
 .date-disp .sel-date {
   font-size: 40px;
   font-weight: 700;
@@ -87,6 +117,18 @@ html, body {
 
 .date-disp .sel-date .g {
   color: #000;
+}
+
+@media (max-width: 680px) {
+  .date-disp .sel-date {
+    font-size: 35px;
+  }
+}
+
+@media (max-width: 580px) {
+  .date-disp .sel-date {
+    font-size: 20px;
+  }
 }
 
 .date-disp .datesel-btn {
@@ -105,6 +147,21 @@ html, body {
   cursor: pointer;
   -webkit-transition: background .5s ease-in;
   transition: background .5s ease-in;
+}
+
+@media (max-width: 680px) {
+  .date-disp .datesel-btn {
+    width: 140px;
+    height: 40px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 580px) {
+  .date-disp .datesel-btn {
+    width: 120px;
+    height: 40px;
+  }
 }
 
 .c-box {
@@ -284,12 +341,37 @@ html, body {
   font-size: 13px;
   color: #969696;
   font-weight: 300;
-  margin: 0 auto;
-  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .c-box .about #author {
   color: #1a73e8;
   font-weight: 400;
+}
+
+@media (max-width: 680px) {
+  .c-box .about {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 680px) {
+  .c-box {
+    width: 365px;
+  }
+}
+
+@media (max-width: 580px) {
+  .c-box {
+    width: 355px;
+  }
 }
 /*# sourceMappingURL=style.css.map */
