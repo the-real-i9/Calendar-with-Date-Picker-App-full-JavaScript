@@ -19,7 +19,7 @@ $bwsm: 120px;
 $bhsm: 40px;
 
 $cal-width-m: 365px;
-$cal-width-sm: 340px;
+$cal-width-sm: 335px;
 
 @function weight($name) {
     @return map-get($fontWeight, $name);
